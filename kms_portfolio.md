@@ -842,7 +842,7 @@
 
 - **주요 구현 :** 
   - 서버 응답 대기 없이 유저 액션에 즉각 반응하는 UI 로직을 적용하여 체감 속도 향상
-  - 게시물의 상태 변경(좋아요 수 등)이 여러 UI 뷰에 동시 반영되도록 옵저버 패턴 적용
+  - 게시물의 상태 변경(좋아요 수 등)이 여러 UI 뷰에 동시 반영되도록 적용
     
 <p align="left">
   <img src="https://github.com/user-attachments/assets/a3ae732c-a8c6-4108-b21a-d217ff8141c1" width="20%" alt="Feed Like">
