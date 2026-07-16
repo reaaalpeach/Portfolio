@@ -700,7 +700,7 @@
 <details> 
 <summary><b>2️⃣ 구슬 드랍 </b></summary>    
 
-  public class MiniGameWatermelonPlayer : MiniGamePlayerInput
+    public class MiniGameWatermelonPlayer : MiniGamePlayerInput
     {
         private void ObjectDrop()
         {
@@ -733,7 +733,7 @@
     
 <details>
 <summary><b>3️⃣ 충돌 처리 </b></summary>     
-    
+
     private void OnHit(Collision2D collision)
     {
         if (collision.gameObject == null || gameObject.activeInHierarchy == false)
@@ -909,194 +909,194 @@
 
 <details> <summary><b>1️⃣ 스토리 및 상단 프로그레스 바 셋팅</b></summary>
   
-  public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
-  {
-       private List<ObjSnsStory> objStoryList = new List<ObjSnsStory>(50); // 재사용을 위한 story obj 리스트
-       private List<ObjSnsStorySlider> objSliderList = new List<ObjSnsStorySlider>(50); // 재사용을 위한 slider obj 리스트
+    public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
+    {
+         private List<ObjSnsStory> objStoryList = new List<ObjSnsStory>(50); // 재사용을 위한 story obj 리스트
+         private List<ObjSnsStorySlider> objSliderList = new List<ObjSnsStorySlider>(50); // 재사용을 위한 slider obj 리스트
+    
+         private void SetStoryInfo(bool isNext)
+          {
+              objStoryList?.Clear();
   
-       private void SetStoryInfo(bool isNext)
-        {
-            objStoryList?.Clear();
-
-            storyList = objStoryData.storyList;
-
-            for (int i = 0; i < storyList.Count; i++)
-            {
-                var story = storyList[i];
-                var prefabData = CSNSDataManager.Instance.GetStoryPrefabData(story.prefab_id);
-                if (prefabData != null)
-                {
-                    var storyObj = Instantiate(templateObj[prefabData.storyprfb_type], storyHolder);
-                    if(storyObj != null)
-                    {
-                        var objSnsStory = storyObj.GetComponent<ObjSnsStory>();
-                        if (objSnsStory != null)
-                        {
-                            objSnsStory.Init(storyList[i], i, this);
-                            objStoryList.Add(objSnsStory);
-                        }
-                    }
-
-                    if(objSliderList.Count < objStoryList.Count) // slider가 story갯수보다 적으면 생성
-                    {
-                        var slider = Instantiate(sliderObj, sliderHolder);
-                        if (slider != null)
-                        {
-                            slider.gameObject.SetActive(true);
-                            var objSnsStorySlider = slider.GetComponent<ObjSnsStorySlider>();
-                            if (objSnsStorySlider != null)
-                            {
-                                objSnsStorySlider.Init(this);
-                                objSliderList.Add(objSnsStorySlider);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(objStoryList.Count > 0)
-            {
-                SetActiveSlider(true); // 스토리갯수만큼 슬라이더 켜기
-
-                storyIdxMax = storyList.Count - 1;
-                if (isNext)
-                {
-                    SetCurStoryIdx(0);
-                    SetSliderMin();
-                }
-                else
-                {
-                    SetCurStoryIdx(storyIdxMax); // 이전스토리는 맨 마지막 스토리부터 시작
-                    SetSliderMax();
-                }    
-
-                SetSibilingStory(true, true);
-            }
-        }
-  }
+              storyList = objStoryData.storyList;
+  
+              for (int i = 0; i < storyList.Count; i++)
+              {
+                  var story = storyList[i];
+                  var prefabData = CSNSDataManager.Instance.GetStoryPrefabData(story.prefab_id);
+                  if (prefabData != null)
+                  {
+                      var storyObj = Instantiate(templateObj[prefabData.storyprfb_type], storyHolder);
+                      if(storyObj != null)
+                      {
+                          var objSnsStory = storyObj.GetComponent<ObjSnsStory>();
+                          if (objSnsStory != null)
+                          {
+                              objSnsStory.Init(storyList[i], i, this);
+                              objStoryList.Add(objSnsStory);
+                          }
+                      }
+  
+                      if(objSliderList.Count < objStoryList.Count) // slider가 story갯수보다 적으면 생성
+                      {
+                          var slider = Instantiate(sliderObj, sliderHolder);
+                          if (slider != null)
+                          {
+                              slider.gameObject.SetActive(true);
+                              var objSnsStorySlider = slider.GetComponent<ObjSnsStorySlider>();
+                              if (objSnsStorySlider != null)
+                              {
+                                  objSnsStorySlider.Init(this);
+                                  objSliderList.Add(objSnsStorySlider);
+                              }
+                          }
+                      }
+                  }
+              }
+  
+              if(objStoryList.Count > 0)
+              {
+                  SetActiveSlider(true); // 스토리갯수만큼 슬라이더 켜기
+  
+                  storyIdxMax = storyList.Count - 1;
+                  if (isNext)
+                  {
+                      SetCurStoryIdx(0);
+                      SetSliderMin();
+                  }
+                  else
+                  {
+                      SetCurStoryIdx(storyIdxMax); // 이전스토리는 맨 마지막 스토리부터 시작
+                      SetSliderMax();
+                  }    
+  
+                  SetSibilingStory(true, true);
+              }
+          }
+    }
     
 </details>
   
 <details>
 <summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
   
-  public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
-  {
-      private bool CheckSibilingData(bool isNext) // 다음 캐릭터의 스토리가 있는지 체크
-      {
-          int curIdx = index;
-          var silibingIdx = isNext ? ++curIdx : --curIdx;
-
-          var objectStoryDataList = APIHelper.SnsService.GetStoryData();
-          var siblingData = silibingIdx >= 0 && silibingIdx < objectStoryDataList.Count ? objectStoryDataList[silibingIdx] : null;
-
-          if (siblingData != null)
-          {
-              objStoryData = siblingData;
-              return true;
-          }
-
-          return false;
-      }
-    
-      public void OnClickLeft() // 왼쪽으로 넘기기
-      {
-          SetCurStoryIdx(--curStoryIdx);
-          if(curStoryIdx < 0)
-          {
-              if (CheckSibilingData(false))
-                  SetSibilingObjectData(false);
-              else
-              {
-                  SetCurStoryIdx(0);
-                  SetSibilingStory(false);
-              }
-          }
-          else
-              SetSibilingStory(false);
-      }
-                             
-      private void SetSibilingStory(bool isRight, bool isInit = false, bool isCheckExpired = false) // 다음 스토리 및 슬라이더 셋팅
-      {
-          if(!isCheckExpired)
-          {
-              if (!isInit && storyIdxMax > 0)
-              {
-                  var preIdx = isRight ? curStoryIdx - 1 : curStoryIdx + 1;
-
-                  objStoryList[preIdx].gameObject.SetActive(false);
-                  objSliderList[preIdx].SetTimeSliderValue(isRight);
-              }
-          }
-
-          objStoryList[curStoryIdx].gameObject.SetActive(true);
-          objStoryList[curStoryIdx].SetStoryInfo();
-
-          objSliderList[curStoryIdx].StartTimeSlider();
-      }
-  }
+    public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
+    {
+        private bool CheckSibilingData(bool isNext) // 다음 캐릭터의 스토리가 있는지 체크
+        {
+            int curIdx = index;
+            var silibingIdx = isNext ? ++curIdx : --curIdx;
+  
+            var objectStoryDataList = APIHelper.SnsService.GetStoryData();
+            var siblingData = silibingIdx >= 0 && silibingIdx < objectStoryDataList.Count ? objectStoryDataList[silibingIdx] : null;
+  
+            if (siblingData != null)
+            {
+                objStoryData = siblingData;
+                return true;
+            }
+  
+            return false;
+        }
+      
+        public void OnClickLeft() // 왼쪽으로 넘기기
+        {
+            SetCurStoryIdx(--curStoryIdx);
+            if(curStoryIdx < 0)
+            {
+                if (CheckSibilingData(false))
+                    SetSibilingObjectData(false);
+                else
+                {
+                    SetCurStoryIdx(0);
+                    SetSibilingStory(false);
+                }
+            }
+            else
+                SetSibilingStory(false);
+        }
+                               
+        private void SetSibilingStory(bool isRight, bool isInit = false, bool isCheckExpired = false) // 다음 스토리 및 슬라이더 셋팅
+        {
+            if(!isCheckExpired)
+            {
+                if (!isInit && storyIdxMax > 0)
+                {
+                    var preIdx = isRight ? curStoryIdx - 1 : curStoryIdx + 1;
+  
+                    objStoryList[preIdx].gameObject.SetActive(false);
+                    objSliderList[preIdx].SetTimeSliderValue(isRight);
+                }
+            }
+  
+            objStoryList[curStoryIdx].gameObject.SetActive(true);
+            objStoryList[curStoryIdx].SetStoryInfo();
+  
+            objSliderList[curStoryIdx].StartTimeSlider();
+        }
+    }
   
 </details>
   
 <details> 
 <summary><b>3️⃣ 시간 만료 체크 </b></summary>
+
+    public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
+    {                                                                             
+        public void RemoveExpiredStory() // 시간 만료된 스토리 삭제
+        {
+            isDataDeleted = true;
   
-  public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
-  {                                                                             
-      public void RemoveExpiredStory() // 시간 만료된 스토리 삭제
-      {
-          isDataDeleted = true;
-
-          SetReadCheck(curStoryData.gdid, false); 
-          objStoryData.storyList.RemoveAt(curStoryIdx);
-          objStoryList[curStoryIdx].gameObject.SetActive(false);
-          objSliderList.FindLast(x => x.gameObject.activeSelf).gameObject.SetActive(false); // 활성화O && 맨끝에 있는 슬라이더를 꺼야함
-
-          var newObjStoryList = new List<ObjSnsStory>(); // 스토리오브젝트 재구성
-          for (int i = 0; i < objStoryList.Count; ++i)
-          {
-              if (i != curStoryIdx)
-                  newObjStoryList.Add(objStoryList[i]);
-              else
-                  objStoryList[i].gameObject.Destroy();
-          }
-
-          storyList = objStoryData.storyList;
-          objStoryList = newObjStoryList;
-
-          storyIdxMax = storyList.Count - 1;
-
-          if(storyIdxMax < 0)
-          {
-              APIHelper.SnsService.CheckStoryListNone(); // 스토리 남았는지 체크 후, 데이터 갱신
-              SNSManager.Instance.PageSNS.SetStory();
-              --index;
-          }
-
-          for (int i = 0; i < newObjStoryList.Count; ++i)
-          {
-              objStoryList[i].RefreshData(storyList[i], i);
-          }
-
-          SetCurStoryIdx(curStoryIdx);
-          if(curStoryIdx > storyIdxMax) // 왼 -> 오
-          {
-              if (CheckSibilingData(true))
-                  SetSibilingObjectData(true);
-              else
-              {
-                  CCoreServices.GetCoreService<CPopupService>().NoticeMessageDisposable("STORY_toast_nostorytoplay");
-                  OnClickClose();
-              }
-              return;
-          }
-
-          SetSibilingStory(true, false, true);
-
-          isDataDeleted = false;
-          isTestCompleted = false;
-      }
-  }
+            SetReadCheck(curStoryData.gdid, false); 
+            objStoryData.storyList.RemoveAt(curStoryIdx);
+            objStoryList[curStoryIdx].gameObject.SetActive(false);
+            objSliderList.FindLast(x => x.gameObject.activeSelf).gameObject.SetActive(false); // 활성화O && 맨끝에 있는 슬라이더를 꺼야함
+  
+            var newObjStoryList = new List<ObjSnsStory>(); // 스토리오브젝트 재구성
+            for (int i = 0; i < objStoryList.Count; ++i)
+            {
+                if (i != curStoryIdx)
+                    newObjStoryList.Add(objStoryList[i]);
+                else
+                    objStoryList[i].gameObject.Destroy();
+            }
+  
+            storyList = objStoryData.storyList;
+            objStoryList = newObjStoryList;
+  
+            storyIdxMax = storyList.Count - 1;
+  
+            if(storyIdxMax < 0)
+            {
+                APIHelper.SnsService.CheckStoryListNone(); // 스토리 남았는지 체크 후, 데이터 갱신
+                SNSManager.Instance.PageSNS.SetStory();
+                --index;
+            }
+  
+            for (int i = 0; i < newObjStoryList.Count; ++i)
+            {
+                objStoryList[i].RefreshData(storyList[i], i);
+            }
+  
+            SetCurStoryIdx(curStoryIdx);
+            if(curStoryIdx > storyIdxMax) // 왼 -> 오
+            {
+                if (CheckSibilingData(true))
+                    SetSibilingObjectData(true);
+                else
+                {
+                    CCoreServices.GetCoreService<CPopupService>().NoticeMessageDisposable("STORY_toast_nostorytoplay");
+                    OnClickClose();
+                }
+                return;
+            }
+  
+            SetSibilingStory(true, false, true);
+  
+            isDataDeleted = false;
+            isTestCompleted = false;
+        }
+    }
     
 </details>
 
