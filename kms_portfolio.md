@@ -552,7 +552,8 @@
 ### [Mini Game]
 #### 🏎️ 레이싱 미니게임
     
-<details> <summary><b>1️⃣ 충돌 체크 </b></summary>
+<details> 
+<summary><b>1️⃣ 충돌 체크 </b></summary>
     
     public class MiniGameCharacterTrigger : MonoBehaviour
     {
@@ -633,7 +634,9 @@
  
 #### 🍉 수박게임
     
-<details> <summary><b>1️⃣ 구슬  </b></summary>
+<details> 
+<summary><b>1️⃣ 구슬  </b></summary>
+  
     public partial class MiniGameWatermelon : MiniGameCommon
     {
         public enum WATERMELON_TYPE
@@ -694,7 +697,8 @@
     
 </details>
     
-<details> <summary><b>2️⃣ 구슬 드랍 </b></summary>    
+<details> 
+<summary><b>2️⃣ 구슬 드랍 </b></summary>    
     
   public class MiniGameWatermelonPlayer : MiniGamePlayerInput
     {
@@ -727,7 +731,8 @@
     
 </details>
     
-<details> <summary><b>3️⃣ 충돌 처리 </b></summary>     
+<details>
+<summary><b>3️⃣ 충돌 처리 </b></summary>     
     
     private void OnHit(Collision2D collision)
     {
@@ -972,7 +977,8 @@
     
 </details>
   
-<details> <summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
+<details>
+<summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
   
   public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
   {
@@ -1032,7 +1038,9 @@
   
 </details>
   
-<details> <summary><b>3️⃣ 시간 만료 체크 </b></summary>
+<details> 
+<summary><b>3️⃣ 시간 만료 체크 </b></summary>
+  
   public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
   {                                                                             
       public void RemoveExpiredStory() // 시간 만료된 스토리 삭제
