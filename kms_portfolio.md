@@ -696,7 +696,7 @@
     
 <details> <summary><b>2️⃣ 구슬 드랍 </b></summary>    
     
-    public class MiniGameWatermelonPlayer : MiniGamePlayerInput
+  public class MiniGameWatermelonPlayer : MiniGamePlayerInput
     {
         private void ObjectDrop()
         {
@@ -1033,7 +1033,6 @@
 </details>
   
 <details> <summary><b>3️⃣ 시간 만료 체크 </b></summary>
-  
   public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
   {                                                                             
       public void RemoveExpiredStory() // 시간 만료된 스토리 삭제
