@@ -68,7 +68,7 @@
   <img src="https://github.com/user-attachments/assets/775286aa-0a05-4f0b-939a-6ffbee3d3de0" width="30%" alt="Bingo Mission">
 </p>
 
-#### 3️⃣ 미니게임 2종 (MiniGames)
+#### 4️⃣ 미니게임 2종 (MiniGames)
 게임 내 체류 시간을 높이기 위한 캐주얼 미니 게임 개발에 참여.
 
 ##### 🏎️ 레이싱 미니게임
@@ -122,7 +122,7 @@
 ### [Stage & Chapter System]
 
 <details>
-<summary><b>1️⃣ 모드별 데이터 구분을 위한 구조</b></summary>
+<summary><b>1️⃣ 모드별 데이터 구분을 위한 구조(클릭하여 펼치기) </b></summary>
   
     public enum CHAPTER_MODE
     {
@@ -192,7 +192,7 @@
 ### [Deck System]
 
 <details>
-<summary><b>1️⃣ 덱 데이터 구조 및 저장 로직 (클릭하여 펼치기)</b></summary>
+<summary><b>1️⃣ 덱 데이터 구조 및 저장 로직 </b></summary>
    
         public class CardDeckEditing : CPopupUI<CardDeckEditing.Setting, CardDeckEditing.Result>
         {
@@ -325,7 +325,7 @@
 </details>
 
 <details> 
-<summary><b>2️⃣ 세부 덱 정보 (클릭하여 펼치기)</b></summary>
+<summary><b>2️⃣ 세부 덱 정보 </b></summary>
 
             public void SetData(CardList cardInfo, CardDeckEditing deckEditing, CardDeckEditing.EditingType editingType,
                     int index, bool isSameWeakPoint, CardDeckUseType useType, int deckIndex)
@@ -464,7 +464,7 @@
 
 </details>
     
-<details> <summary><b>1️⃣ 라인 완성 체크 및 연출 </b></summary>
+<details> <summary><b>2️⃣ 라인 완성 체크 및 연출 </b></summary>
     
     public class ObjBingoSlot : MonoBehaviour
     {
