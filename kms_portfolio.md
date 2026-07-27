@@ -11,8 +11,8 @@
 > **NCT 멤버들과 함께하는 시네마틱 어드벤처 게임의 핵심 시스템 개발 및 라이브 서비스 개발/유지 보수**
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/3fffa844-a235-4d50-b18a-db2b56d28fde" width="20%" alt="Icon">
-  <img src="https://github.com/user-attachments/assets/03074ce6-78da-4dc3-8843-da0f0fab0dd7" width="20%" alt="NCT ZONE Main">
+  <img src="https://github.com/user-attachments/assets/e0b2ed0a-a256-476b-a292-7db899c87c19" width="30%" alt="Icon">
+  <img src="https://github.com/user-attachments/assets/acd39162-0200-4817-a3c2-37c869f588f6" width="30%" alt="NCT ZONE Main">
 </p>
 
 ### 📌 Project Overview
@@ -23,7 +23,7 @@
 ### ✨ Key Implementation
 
 #### 1️⃣ 스테이지 & 챕터 시스템 (Stage & Chapter)
-다양한 게임 모드(Normal, Hard, Event)에 대응하기 위해 확장성 있는 데이터 구조를 설계하고 관리 시스템을 구현했습니다.
+다양한 게임 모드(Normal, Hard, Event)에 대응하기 위해 확장성 있는 데이터 구조를 설계하고 관리 시스템을 구현.
 - **주요 구현 :** 
     - 챕터 간 이동 및 해금 조건 체크 시스템 구현
     - **모드별 데이터 격리 구조 :** Enum 타입을 활용한 스테이지 카테고리 분류 및 모드별 독립적 데이터 테이블 관리로 데이터 혼선 방지.
@@ -31,53 +31,54 @@
     - **추상화 기반 설계 :** 각 모드가 동일한 인터페이스를 공유하되, 보상 산정 및 난이도 계산 로직은 각 모드에 맞게 동작하도록 설계.
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/6006a790-1e9b-4d6b-b1ee-1a1308b93348" width="20%" alt="Stage System">
-  <img src="https://github.com/user-attachments/assets/71e51b5b-0d2b-477a-abeb-23ee61b53412" width="20%" alt="Worldmap">
-  <img src="https://github.com/user-attachments/assets/484f0407-ebd6-4300-84f3-f0b2626e0b33" width="20%" alt="Stage Enter Popup">
+  <img src="https://github.com/user-attachments/assets/d4fa72dd-3297-4e29-a7a5-af74a20a3c82" width="30%" alt="Stage System">
+  <img src="https://github.com/user-attachments/assets/1228ba7e-4f95-4cc0-88fc-b165f0c6278f" width="30%" alt="Worldmap">
+  <img src="https://github.com/user-attachments/assets/54c252ec-b7c8-4ca5-9e3d-626c95a477d5" width="30%" alt="Stage Enter Popup">
 </p>
  
 - **Troubleshooting:** 
 - 스테이지 전환 시의 메모리 부하를 줄이기 위해 어드레서블(Addressables)을 활용한 리소스 로드 최적화
 - 기존 시스템에서 하드 모드와 이벤트 스테이지가 추가됨에 따라 데이터 구조가 복잡해지는 문제가 발생.
-이를 해결하기 위해 각 모드를 Data Layer에서 분리하고, partial 키워드를 통해 class를 나누고 데이터 오염 방지와 유지보수 편의성을 동시에 확보.
+이를 해결하기 위해 모드별 데이터 클래스를 분리하고, partial 키워드를 통해 class를 나누고 데이터 오염 방지와 유지보수 편의성을 동시에 확보.
 
 #### 2️⃣ 덱 저장 시스템 (Deck Management)
-유저가 스테이지 공략을 위해 설정한 최적의 카드 조합을 로컬 및 서버에 저장하고 불러오는 기능을 구현했습니다.
+유저가 스테이지 공략을 위해 설정한 최적의 카드 조합을 서버에 저장하고 불러오는 기능을 구현.
 - **주요 구현 :**
     - 다중 덱 슬롯 관리 로직
     - 보스별 속성 상성과 카드의 상성에 따른 빠른 편성 기능 추가 
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/f0d3182c-3baf-4f0c-ac87-f5ed9096adc7" width="20%" alt="Deck Editing1">
-  <img src="https://github.com/user-attachments/assets/0c3e2702-a99c-4fd0-af3a-9c289ea0b692" width="20%" alt="Deck Editing2">
+  <img src="https://github.com/user-attachments/assets/a151e925-5279-43eb-b8ab-102365c4330d" width="30%" alt="Deck Editing1">
+  <img src="https://github.com/user-attachments/assets/38589e76-9e1b-4eaf-ab39-4427816220d9" width="30%" alt="Deck Editing2">
 </p>
 
 - **Troubleshooting:** 기존 시스템에서 타입별로 덱을 구성하게됨에 따라 데이터 구조가 복잡해지는 문제가 발생.
 이를 해결하기 위해 상속을 통해 공통 로직은 재사용하되 타입별 특수 로직은 개별적으로 처리하도록 구현하여 데이터 오염 방지 및 유지 보수 편의성을 동시에 확보.
 
 #### 3️⃣ 빙고 이벤트 시스템 (Bingo System)
-미션 수행과 재화 소모를 결합하여 유저의 리텐션을 유도하는 이벤트 시스템을 개발했습니다.
+미션 수행과 재화 소모를 결합하여 유저의 리텐션을 유도하는 이벤트 시스템을 개발.
 - **주요 구현 :**
     - **이원화 도장 시스템 :** 미션 보상(일반 도장)과 유료 재화(스페셜 도장) 사용 로직 구현
     - **빙고 판정 알고리즘 :** 5x5 그리드의 가로, 세로, 대각선 완성 여부를 실시간 검출
     - **최종 보상 연동 :** 올빙고 달성 시 '미공개 사진' 뷰어 및 해금 연출 구현
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/b81fe47f-739d-4c25-977c-e8ad123d71a8" width="20%" alt="Bingo">
-  <img src="https://github.com/user-attachments/assets/6e088cdf-e081-4584-b003-817c277f46e8" width="20%" alt="Bingo Line Clear">
-  <img src="https://github.com/user-attachments/assets/e3c224e0-ba80-4e0d-968b-149e660786eb" width="20%" alt="Bingo Mission">
+  <img src="https://github.com/user-attachments/assets/9f0f7031-4812-4b48-871d-17a51cb1a366" width="30%" alt="Bingo">
+  <img src="https://github.com/user-attachments/assets/27f02cf7-d9c3-4ffe-96b9-24a15d355764" width="30%" alt="Bingo Line Clear">
+  <img src="https://github.com/user-attachments/assets/775286aa-0a05-4f0b-939a-6ffbee3d3de0" width="30%" alt="Bingo Mission">
 </p>
 
-#### 3️⃣ 미니게임 2종 (Mini Games)
-게임 내 체류 시간을 높이기 위한 캐주얼 미니게임의 핵심 메카닉을 개발했습니다.
+#### 3️⃣ 미니게임 2종 (MiniGames)
+게임 내 체류 시간을 높이기 위한 캐주얼 미니 게임 개발에 참여.
 
 ##### 🏎️ 레이싱 미니게임
-- 물리 기반의 차량 컨트롤러 구현
-- 무한 맵 생성을 위한 오브젝트 풀링(Object Pooling) 적용
+- 아이템 사용 및 이펙트 적용
+- 게임 시작/오버 적용
+- 플레이 중 발생하는 전반적인 버그 
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/60bed8a2-d169-4c27-b874-ecfac5a0cd05" width="20%" alt="Racing Main">
-  <img src="https://github.com/user-attachments/assets/62c30b50-00df-4cc7-8a7e-3ad5d9c26121" width="20%" alt="Racing Playing">
+  <img src="https://github.com/user-attachments/assets/a1831208-c4a1-4f19-9287-03ee7b57416b" width="30%" alt="Racing Main">
+  <img src="https://github.com/user-attachments/assets/9fb61c6b-73c3-4291-a6fc-a3262edc72f6" width="30%" alt="Racing Playing">
 </p>
 
 - **Troubleshooting:** 다양한 아이템 연출이 겹칠 때 프레임 드랍이 발생하는 문제를 방지하기 위해, 이펙트 오브젝트에도 오브젝트 풀링을 적용하여 안정적인 성능을 유지.
@@ -85,12 +86,12 @@
 ##### 🍉 수박게임 (Merge Mechanic)
 - 오브젝트 풀링을 이용한 게임 최적화
 - 원형 물리 충돌 판정을 이용한 오브젝트 합성 로직
-- 상단 투하 위치 가이드 및 스코어 시스템
+- 상단 투하 위치 가이드 및 다양한 아이템 사용/스코어 시스템
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/8d2f26f2-0c23-4760-affc-bdfa4dbefb5c" width="20%" alt="Watermelon Main">
-  <img src="https://github.com/user-attachments/assets/0bcb49e5-613d-43d8-826c-598bda604a12" width="20%" alt="Watermelon Playing">
-  <img src="https://github.com/user-attachments/assets/a8f720b0-78f1-48f0-a938-a6ddbb768732" width="20%" alt="Watermelon Select Item">
+  <img src="https://github.com/user-attachments/assets/1cb8eb30-610c-4cba-9c07-3508d44c1f87" width="30%" alt="Watermelon Main">
+  <img src="https://github.com/user-attachments/assets/6fb698bb-0fe1-43c5-91d7-ac95dbbad17e" width="30%" alt="Watermelon Playing">
+  <img src="https://github.com/user-attachments/assets/61db136a-fc3c-42b5-a997-8c242cee2d04" width="30%" alt="Watermelon Select Item">
 </p>
 
 ##### 미니게임 공통 적용 사항
@@ -98,21 +99,21 @@
 - **랭킹 시스템 :** 전체 유저 대상의 '글로벌 랭킹'과 소셜 연동 정보를 활용한 '친구 랭킹' 데이터 분리 및 UI 대응.
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/8b2d59ba-cf36-4f75-9f5d-71909796d7fa" width="20%" alt="MiniGame Ranking System">
+  <img src="https://github.com/user-attachments/assets/7fe135d3-d71b-49db-85bf-59ef9a5544df" width="30%" alt="MiniGame Ranking System">
 </p>
 
 - **Troubleshooting:** 다양한 아이템 연출이 겹칠 때 프레임 드랍이 발생하는 문제를 방지하기 위해, 이펙트 오브젝트에도 오브젝트 풀링을 적용하여 안정적인 성능을 유지.
 
 #### 4️⃣ 프로필 및 프레임 시스템 (Profile & Frame System)
-유저의 개성을 표현하는 프로필 사진과 프레임 선택 시스템을 구축하고, 획득 조건에 따른 활성화 로직을 구현했습니다.
+유저의 개성을 표현하는 프로필 사진과 프레임 선택 시스템을 구축하고, 획득 조건에 따른 활성화 로직을 구현.
 - **주요 구현 :**
     - 수백 종류의 프로필 리소스를 시트 데이터와 연동하여 코드 수정 없이 리소스를 추가/관리할 수 있는 구조 설계.
     - **상태별 필터링 로직 :** '보유 중', '미보유', '장착 중' 상태를 구분하고, 미보유 아이템의 경우 획득 처 확인 가능 팝업 연동.
     - **동적 리소스 로딩 :** 메모리 효율을 위해 모든 프레임을 상주시키지 않고, 필요한 시점에만 Addressables 또는 Resources를 통해 로드하는 최적화 적용.
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/cd324a3e-1f37-4776-8cfe-ad08097f4178" width="20%" alt="Profile Image">
-  <img src="https://github.com/user-attachments/assets/007dcec3-47ee-4a71-9f11-576af00d73dc" width="20%" alt="Profile Frame">
+  <img src="https://github.com/user-attachments/assets/556d6878-9cf8-4d87-9aa4-21a8ab4f8f6c" width="30%" alt="Profile Image">
+  <img src="https://github.com/user-attachments/assets/585c73e8-38c6-42f3-af74-37c34da95ca1" width="30%" alt="Profile Frame">
 </p>
 
 
@@ -122,6 +123,7 @@
 
 <details>
 <summary><b>1️⃣ 모드별 데이터 구분을 위한 구조</b></summary>
+  
     public enum CHAPTER_MODE
     {
         MODE_NORMAL,
@@ -552,8 +554,7 @@
 ### [Mini Game]
 #### 🏎️ 레이싱 미니게임
     
-<details> 
-<summary><b>1️⃣ 충돌 체크 </b></summary>
+<details> <summary><b>1️⃣ 충돌 체크 </b></summary>
     
     public class MiniGameCharacterTrigger : MonoBehaviour
     {
@@ -634,8 +635,7 @@
  
 #### 🍉 수박게임
     
-<details> 
-<summary><b>1️⃣ 구슬  </b></summary>
+<details> <summary><b>1️⃣ 구슬  </b></summary>
   
     public partial class MiniGameWatermelon : MiniGameCommon
     {
@@ -692,14 +692,13 @@
                 PageMinigameWmhud.Instance.SetNextBead(); // 다음 구슬 셋팅
                 GetMiniGamePlayer.PlayerAnimation.SetGripAnim(); // 캐릭터 애니메이션 셋팅
             }
-        }
-    }
+          }
+      }
     
 </details>
     
-<details> 
-<summary><b>2️⃣ 구슬 드랍 </b></summary>    
-
+<details> <summary><b>2️⃣ 구슬 드랍 </b></summary>    
+    
     public class MiniGameWatermelonPlayer : MiniGamePlayerInput
     {
         private void ObjectDrop()
@@ -731,9 +730,8 @@
     
 </details>
     
-<details>
-<summary><b>3️⃣ 충돌 처리 </b></summary>     
-
+<details> <summary><b>3️⃣ 충돌 처리 </b></summary>     
+    
     private void OnHit(Collision2D collision)
     {
         if (collision.gameObject == null || gameObject.activeInHierarchy == false)
@@ -811,8 +809,8 @@
 > **몰입감 있는 스토리 안에서 캐릭터를 수집하고, 생성형 AI로 세계가 확장되는 하이브리드 게임의 핵심 시스템 개발**
     
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/b14ec014-eeda-4263-9d3b-d00410f524ed" width="20%" alt="PJV Start">
-  <img src="https://github.com/user-attachments/assets/a69c446b-6528-4087-854e-9cf24aa575d7" width="20%" alt="PJV Main">
+  <img src="https://github.com/user-attachments/assets/a4092c9f-b1d0-409a-a1e0-e57f2896c7c7" width="30%" alt="PJV Start">
+  <img src="https://github.com/user-attachments/assets/c6e925fb-3f6d-47cc-99a8-67e1fe6f150e" width="30%" alt="PJV Main">
 </p>
 
 ## 📌 Project Overview
@@ -826,17 +824,17 @@
 > **사용자 간 피드 공유 및 실시간 상호작용이 가능한 모바일 SNS 플랫폼 구현**
     
 #### 1️⃣ 피드 업로드 및 실시간 댓글 시스템 (Feed & Comment) 📤
-유저가 직접 미디어를 공유하고 의견을 나눌 수 있는 커뮤니티 핵심 기능을 구현
+유저가 직접 미디어를 공유하고 댓글로 상호작용할 수 있는 커뮤니티 핵심 기능을 구현
 
 - **주요 구현 :** 
   - **미디어 업로드 로직 :** 테이블 데이터 기반하여 이미지를 로드하고 이미지 선택과 함께 글을 작성하여 서버 전송 적용
-  - **실시간 댓글 동기화 :** 댓글 작성 시 리스트 자동 갱신 및 레이아웃 동적으로 높이 조절(Dynamic Layout) 처리
+  - **실시간 댓글 동기화 :** 댓글 작성 시 리스트 자동 갱신 및 레이아웃 동적으로 높이 조절 처리
   - 좋아요 및 댓글 등록 시 서버 응답 전 UI를 즉시 반영하여 사용자 체감 속도 극대화
     
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/f91e191f-89fe-471f-aeee-d81b78cc6921" width="20%" alt="Feed Main">
-  <img src="https://github.com/user-attachments/assets/5cace5de-6352-4547-a5c2-59b6af57eb59" width="20%" alt="Feed Replying">
-  <img src="https://github.com/user-attachments/assets/e21cca3f-3b8f-462a-925d-d07d64c1078e" width="20%" alt="Feed Upload">
+  <img src="https://github.com/user-attachments/assets/38149c0b-08e0-4b14-a8be-90d23d5bf0ab" width="30%" alt="Feed Main">
+  <img src="https://github.com/user-attachments/assets/7867e977-a019-4b54-a51d-77bea008fe8a" width="30%" alt="Feed Replying">
+  <img src="https://github.com/user-attachments/assets/fd29a11b-a10d-462e-8f87-a13e827b88e6" width="30%" alt="Feed Upload">
 </p>
   
 - **Troubleshooting:** 
@@ -850,20 +848,19 @@
   - 게시물의 상태 변경(좋아요 수 등)이 여러 UI 뷰에 동시 반영되도록 적용
     
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/a3ae732c-a8c6-4108-b21a-d217ff8141c1" width="20%" alt="Feed Like">
-  <img src="https://github.com/user-attachments/assets/31d89a78-2bd0-4b56-87a3-7e95dc694450" width="20%" alt="Story Like">
+  <img src="https://github.com/user-attachments/assets/00949b2f-d98f-4af2-85b7-95d4aab56113" width="30%" alt="Feed Like">
+  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story Like">
 </p>
 
 #### 3️⃣ 스토리 시스템 (Story System) ⏱️
 24시간 동안 유지되는 휘발성 콘텐츠를 위한 별도의 뷰어와 업로드 로직을 구현
 
 - **주요 구현 :** 
-  - **스토리 전용 뷰어 :** 상단 프로그레스 바(Progress Bar) 연동 및 자동 넘김, 탭 이동 기능 구현
+  - **스토리 전용 뷰어 :** 상단 프로그레스 바 연동 및 자동 넘김, 탭 이동 기능 구현
   - **필터링 로직 :** 서버 데이터 기반으로 남은 유효시간을 계산해 실시간 만료 카운트다운을 수행하여, 유효 시간이 경과한 데이터는 자동으로 필터링해 노출되지 않도록 구현
     
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/3740c587-d807-4d86-81e0-c935877a883d" width="20%" alt="Story">
-  <img src="https://github.com/user-attachments/assets/079fd7be-f06e-4436-b941-445566ce8b77" width="20%" alt="DM">
+  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story">
 </p>
 
 #### 4️⃣ 실시간 DM 시스템 (Direct Message) 💬
@@ -871,11 +868,11 @@
 - **주요 구현 :** 
   - **실시간 통신 :** 서버- AI간 데이터를 실시간 이벤트 기반으로 중계하여 대화 내용이 즉시 화면에 반영되는 대화형 인터페이스 구축
   - **채팅 UI 최적화 :** 가변형 말풍선 리스트 구현
-  - **상태 표시 :** 지연 메세지, 메시지 읽음 처리(Read Receipt) 및 실시간 글쓰기 상태 표시 로직 연동
+  - **상태 표시 :** 지연 메세지, 메시지 읽음 처리 및 실시간 글쓰기 상태 표시 로직 연동
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/d374e585-153a-4022-8083-3832dace2e4a" width="20%" alt="DM List">
-  <img src="https://github.com/user-attachments/assets/079fd7be-f06e-4436-b941-445566ce8b77" width="20%" alt="DM">
+  <img src="https://github.com/user-attachments/assets/3cc73722-43fe-4b52-add9-213e8343902f" width="30%" alt="DM List">
+  <img src="https://github.com/user-attachments/assets/156a80a0-af78-435f-9c93-48a12cc8e21d" width="30%" alt="DM">
 </p>
 
 ## 💻 Code Snippets
@@ -913,13 +910,13 @@
     {
          private List<ObjSnsStory> objStoryList = new List<ObjSnsStory>(50); // 재사용을 위한 story obj 리스트
          private List<ObjSnsStorySlider> objSliderList = new List<ObjSnsStorySlider>(50); // 재사용을 위한 slider obj 리스트
-    
+
          private void SetStoryInfo(bool isNext)
           {
               objStoryList?.Clear();
-  
+
               storyList = objStoryData.storyList;
-  
+
               for (int i = 0; i < storyList.Count; i++)
               {
                   var story = storyList[i];
@@ -936,7 +933,7 @@
                               objStoryList.Add(objSnsStory);
                           }
                       }
-  
+
                       if(objSliderList.Count < objStoryList.Count) // slider가 story갯수보다 적으면 생성
                       {
                           var slider = Instantiate(sliderObj, sliderHolder);
@@ -953,11 +950,11 @@
                       }
                   }
               }
-  
+
               if(objStoryList.Count > 0)
               {
                   SetActiveSlider(true); // 스토리갯수만큼 슬라이더 켜기
-  
+
                   storyIdxMax = storyList.Count - 1;
                   if (isNext)
                   {
@@ -969,7 +966,7 @@
                       SetCurStoryIdx(storyIdxMax); // 이전스토리는 맨 마지막 스토리부터 시작
                       SetSliderMax();
                   }    
-  
+
                   SetSibilingStory(true, true);
               }
           }
@@ -977,8 +974,7 @@
     
 </details>
   
-<details>
-<summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
+<details> <summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
   
     public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
     {
@@ -986,19 +982,19 @@
         {
             int curIdx = index;
             var silibingIdx = isNext ? ++curIdx : --curIdx;
-  
+
             var objectStoryDataList = APIHelper.SnsService.GetStoryData();
             var siblingData = silibingIdx >= 0 && silibingIdx < objectStoryDataList.Count ? objectStoryDataList[silibingIdx] : null;
-  
+
             if (siblingData != null)
             {
                 objStoryData = siblingData;
                 return true;
             }
-  
+
             return false;
         }
-      
+
         public void OnClickLeft() // 왼쪽으로 넘기기
         {
             SetCurStoryIdx(--curStoryIdx);
@@ -1015,7 +1011,7 @@
             else
                 SetSibilingStory(false);
         }
-                               
+
         private void SetSibilingStory(bool isRight, bool isInit = false, bool isCheckExpired = false) // 다음 스토리 및 슬라이더 셋팅
         {
             if(!isCheckExpired)
@@ -1023,35 +1019,34 @@
                 if (!isInit && storyIdxMax > 0)
                 {
                     var preIdx = isRight ? curStoryIdx - 1 : curStoryIdx + 1;
-  
+
                     objStoryList[preIdx].gameObject.SetActive(false);
                     objSliderList[preIdx].SetTimeSliderValue(isRight);
                 }
             }
-  
+
             objStoryList[curStoryIdx].gameObject.SetActive(true);
             objStoryList[curStoryIdx].SetStoryInfo();
-  
+
             objSliderList[curStoryIdx].StartTimeSlider();
         }
     }
   
 </details>
   
-<details> 
-<summary><b>3️⃣ 시간 만료 체크 </b></summary>
+<details> <summary><b>3️⃣ 시간 만료 체크 </b></summary>
 
     public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
     {                                                                             
         public void RemoveExpiredStory() // 시간 만료된 스토리 삭제
         {
             isDataDeleted = true;
-  
+
             SetReadCheck(curStoryData.gdid, false); 
             objStoryData.storyList.RemoveAt(curStoryIdx);
             objStoryList[curStoryIdx].gameObject.SetActive(false);
             objSliderList.FindLast(x => x.gameObject.activeSelf).gameObject.SetActive(false); // 활성화O && 맨끝에 있는 슬라이더를 꺼야함
-  
+
             var newObjStoryList = new List<ObjSnsStory>(); // 스토리오브젝트 재구성
             for (int i = 0; i < objStoryList.Count; ++i)
             {
@@ -1060,24 +1055,24 @@
                 else
                     objStoryList[i].gameObject.Destroy();
             }
-  
+
             storyList = objStoryData.storyList;
             objStoryList = newObjStoryList;
-  
+
             storyIdxMax = storyList.Count - 1;
-  
+
             if(storyIdxMax < 0)
             {
                 APIHelper.SnsService.CheckStoryListNone(); // 스토리 남았는지 체크 후, 데이터 갱신
                 SNSManager.Instance.PageSNS.SetStory();
                 --index;
             }
-  
+
             for (int i = 0; i < newObjStoryList.Count; ++i)
             {
                 objStoryList[i].RefreshData(storyList[i], i);
             }
-  
+
             SetCurStoryIdx(curStoryIdx);
             if(curStoryIdx > storyIdxMax) // 왼 -> 오
             {
@@ -1090,15 +1085,15 @@
                 }
                 return;
             }
-  
+
             SetSibilingStory(true, false, true);
-  
+
             isDataDeleted = false;
             isTestCompleted = false;
         }
     }
-    
-</details>
+
+  </details>
 
 ---
  
