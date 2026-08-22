@@ -1,4 +1,4 @@
-# 📂 Project Portfolio | Client Develop
+0# 📂 Project Portfolio | Client Develop
 > **Unity 클라이언트 개발자 [김민선]입니다.**
 
 ## 📋 Table of Contents
@@ -8,7 +8,7 @@
 ---
 
 ## 🎮 Project 1: NCT ZONE
-> **NCT 멤버들과 함께하는 시네마틱 어드벤처 게임의 핵심 시스템 개발 및 라이브 서비스 개발/유지 보수**
+> **NCT 멤버들과 함께하는 시네마틱 어드벤처 게임의 시스템 개발 및 라이브 서비스 개발/유지 보수**
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/e0b2ed0a-a256-476b-a292-7db899c87c19" width="30%" alt="Icon">
@@ -17,19 +17,19 @@
 
 ### 📌 Project Overview
 - **개발 기간 :** 2022.11 ~ 2026.02
-- **기술 스택 :** Unity 3D, C#, UGUI
-- **담당 역할 :** 클라이언트 컨텐츠 로직 구현 (스테이지, 시스템, 미니게임, 덱, 빙고게임)
+- **기술 스택 :** Unity 3D, C#, UGUI, UniRx
+- **담당 역할 :** 클라이언트 컨텐츠 로직 구현 (스테이지 시스템, 미니게임, 덱, 빙고게임 등)
 <br />
 
 ### ✨ Key Implementation
 
-#### 1️⃣ 스테이지 & 챕터 시스템
-다양한 게임 모드(Normal, Hard, Event)에 대응하기 위해 확장성 있는 데이터 구조를 설계하고 관리 시스템을 구현.
+#### 1️⃣ **스테이지 & 챕터 시스템**
+기존에 구축된 스테이지 시스템의 기본 구조를 바탕으로, 신규 게임 모드(하드, 이벤트) 확장 및 UI 연동/유지보수를 담당.
 - **주요 구현 :** 
-    - 챕터 간 이동 및 해금 조건 체크 시스템 구현
-    - **모드별 데이터 격리 구조 :** Enum 타입을 활용한 스테이지 카테고리 분류 및 모드별 독립적 데이터 테이블 관리로 데이터 혼선 방지.
-    - **이벤트 스테이지 제어 :** 기간 한정 컨텐츠를 위해 서버 시간과 연동된 활성화/비활성화 스케줄링 로직 구현.
-    - **추상화 기반 설계 :** 각 모드가 동일한 인터페이스를 공유하되, 보상 산정 및 난이도 계산 로직은 각 모드에 맞게 동작하도록 설계.
+    - 챕터 간 이동 및 해금 조건 체크, 스테이지 진입 팝업 등의 UI 플로우 및 클라이언트 컨텐츠 로직 구현.
+    - **모드별 확장 및 유지보수 :** 기존 Normal모드 중심의 구조에 하드 모드와 기간 한정 이벤트 스테이지를 확장하기 위한 로직 구현.
+    - **이벤트 스테이지 제어 :** 기간 한정 컨텐츠를 위해 서버 시간과 연동된 활성화/비활성화 구현.
+    - **모드별 독립성 확보 :** Enum 타입을 활용해 모드를 분류하고, 각 모드가 동일한 인터페이스를 공유하되 개별 기능은 각 모드에 맞게 동작하도록 설계.
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/d4fa72dd-3297-4e29-a7a5-af74a20a3c82" width="30%" alt="Stage System">
@@ -39,93 +39,11 @@
  
 - **개선/최적화:** 
     - 기존 시스템에서 하드 모드와 이벤트 스테이지가 추가됨에 따라 데이터 구조가 복잡해지는 문제가 발생.
-    이를 해결하기 위해 모드별 데이터 클래스를 분리하고, partial 키워드를 통해 class를 나누고 데이터 오염 방지와 유지보수 편의성을 동시에 확보. 
-<br />
+    partial 키워드를 통해 class를 나누고 데이터 오염 방지와 유지보수 편의성을 동시에 확보. 
 
-#### 2️⃣ 덱 저장 시스템
-유저가 스테이지 공략을 위해 설정한 최적의 카드 조합을 서버에 저장하고 불러오는 기능을 구현.
-- **주요 구현 :**
-    - 다중 덱 슬롯 관리 로직
-    - 보스별 속성 상성과 카드의 상성에 따른 빠른 편성 기능 추가 
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/a151e925-5279-43eb-b8ab-102365c4330d" width="30%" alt="Deck Editing1">
-  <img src="https://github.com/user-attachments/assets/38589e76-9e1b-4eaf-ab39-4427816220d9" width="30%" alt="Deck Editing2">
-</p>
-
-- **개선/최적화:** 기존 시스템에서 타입별로 덱을 구성하게됨에 따라 데이터 구조가 복잡해지는 문제가 발생.
-이를 해결하기 위해 상속을 통해 공통 로직은 재사용하되 타입별 특수 로직은 개별적으로 처리하도록 구현하여 데이터 오염 방지 및 유지 보수 편의성을 동시에 확보.
-<br />
-
-#### 3️⃣ 빙고 이벤트 시스템
-미션 수행과 재화 소모를 결합하여 유저의 리텐션을 유도하는 이벤트 시스템을 개발.
-- **주요 구현 :**
-    - **이원화 도장 시스템 :** 미션 보상(일반 도장)과 유료 재화(스페셜 도장) 사용 로직 구현
-    - **빙고 판정 알고리즘 :** 5x5 그리드의 가로, 세로, 대각선 완성 여부를 실시간 검출
-    - **최종 보상 연동 :** 올빙고 달성 시 '미공개 사진' 뷰어 및 해금 연출 구현
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/9f0f7031-4812-4b48-871d-17a51cb1a366" width="30%" alt="Bingo">
-  <img src="https://github.com/user-attachments/assets/27f02cf7-d9c3-4ffe-96b9-24a15d355764" width="30%" alt="Bingo Line Clear">
-  <img src="https://github.com/user-attachments/assets/775286aa-0a05-4f0b-939a-6ffbee3d3de0" width="30%" alt="Bingo Mission">
-</p>
-<br />
-
-#### 4️⃣ 미니게임 2종 (MiniGames)
-게임 내 체류 시간을 높이기 위한 캐주얼 미니 게임 개발에 참여.
-
-##### 🏎️ 레이싱 미니게임
-- 게임 시작/오버 적용
-- 플레이 중 발생하는 전반적인 버그 수정
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/a1831208-c4a1-4f19-9287-03ee7b57416b" width="30%" alt="Racing Main">
-  <img src="https://github.com/user-attachments/assets/9fb61c6b-73c3-4291-a6fc-a3262edc72f6" width="30%" alt="Racing Playing">
-</p>
-
-- **개선/최적화:** 다양한 아이템 연출이 겹칠 때 프레임 드랍이 발생하는 문제를 방지하기 위해, 이펙트 오브젝트에도 오브젝트 풀링을 적용하여 안정적인 성능을 유지.
-
-##### 🍉 수박게임
-- 오브젝트 풀링을 이용한 게임 최적화
-- 원형 물리 충돌 판정을 이용한 오브젝트 합성 로직
-- 상단 투하 위치 가이드 및 스코어 시스템
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/1cb8eb30-610c-4cba-9c07-3508d44c1f87" width="30%" alt="Watermelon Main">
-  <img src="https://github.com/user-attachments/assets/6fb698bb-0fe1-43c5-91d7-ac95dbbad17e" width="30%" alt="Watermelon Playing">
-  <img src="https://github.com/user-attachments/assets/61db136a-fc3c-42b5-a997-8c242cee2d04" width="30%" alt="Watermelon Select Item">
-</p>
-
-##### 미니게임 공통 적용 사항
-- **아이템 시스템 :** 각기 다른 효과를 가진 아이템을 고유 트리거 시스템을 통해 사용 즉시 연동되는 특수 효과 및 로직을 구현하고, 게임의 템포를 조절하는 다양한 변수 창출.
-- **랭킹 시스템 :** 전체 유저 대상의 '글로벌 랭킹'과 소셜 연동 정보를 활용한 '친구 랭킹' 데이터 분리 및 UI 대응.
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/7fe135d3-d71b-49db-85bf-59ef9a5544df" width="30%" alt="MiniGame Ranking System">
-</p>
-
-- **개선/최적화:** 다양한 아이템 연출이 겹칠 때 프레임 드랍이 발생하는 문제를 방지하기 위해, 이펙트 오브젝트에도 오브젝트 풀링을 적용하여 안정적인 성능을 유지.
-<br />
-
-#### 4️⃣ 프로필 및 프레임 시스템
-유저의 개성을 표현하는 프로필 사진과 프레임 선택 시스템을 구축하고, 획득 조건에 따른 활성화 로직을 구현.
-- **주요 구현 :**
-    - 수백 종류의 프로필 리소스를 시트 데이터와 연동하여 코드 수정 없이 리소스를 추가/관리할 수 있는 구조 설계.
-    - **상태별 필터링 로직 :** '보유 중', '미보유', '장착 중' 상태를 구분하고, 미보유 아이템의 경우 획득 처 확인 가능 팝업 연동.
-    - **동적 리소스 로딩 :** 메모리 효율을 위해 모든 프레임을 상주시키지 않고, 필요한 시점에만 로드하는 최적화 적용.
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/556d6878-9cf8-4d87-9aa4-21a8ab4f8f6c" width="30%" alt="Profile Image">
-  <img src="https://github.com/user-attachments/assets/585c73e8-38c6-42f3-af74-37c34da95ca1" width="30%" alt="Profile Frame">
-</p>
-
-
-## 💻 Code Snippets
-
-### [Stage & Chapter System]
-
+### 💻 Code Snippets
 <details>
-<summary><b>1️⃣ 모드별 데이터 구분을 위한 구조(클릭하여 펼치기) </b></summary>
+<summary><b> ▶ 모드별 데이터 구분을 위한 구조(클릭하여 펼치기) </b></summary>
   
     public enum CHAPTER_MODE
     {
@@ -190,12 +108,25 @@
     }
     
 </details>    
+<br />
 
+#### 2️⃣ **덱 저장 및 편집 시스템**
+유저가 스테이지 공략을 위해 설정한 최적의 카드 조합을 서버에 저장하고 불러오는 기능을 구현.
+- **주요 구현 :**
+    - 다중 덱 슬롯 관리 로직
+    - 보스별 속성 상성과 카드의 상성에 따른 빠른 편성 기능 추가 
 
-### [Deck System]
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/a151e925-5279-43eb-b8ab-102365c4330d" width="30%" alt="Deck Editing1">
+  <img src="https://github.com/user-attachments/assets/38589e76-9e1b-4eaf-ab39-4427816220d9" width="30%" alt="Deck Editing2">
+</p>
 
-<details>
-<summary><b>1️⃣ 덱 데이터 구조 및 저장 로직 </b></summary>
+- **개선/최적화:** 기존 시스템에서 타입별로 덱을 구성하게됨에 따라 데이터 구조가 복잡해지는 문제가 발생.
+이를 해결하기 위해 상속을 통해 공통 로직은 재사용하되 타입별 특수 로직은 개별적으로 처리하도록 구현하여 데이터 오염 방지 및 유지 보수 편의성을 동시에 확보.
+
+### 💻 Code Snippets
+  
+<details> <summary><b>▶ 1️⃣ 덱 데이터 구조 및 저장 로직 </b></summary>
    
         public class CardDeckEditing : CPopupUI<CardDeckEditing.Setting, CardDeckEditing.Result>
         {
@@ -327,8 +258,7 @@
 
 </details>
 
-<details> 
-<summary><b>2️⃣ 세부 덱 정보 </b></summary>
+<details> <summary><b>▶ 2️⃣ 세부 덱 정보 </b></summary>
 
             public void SetData(CardList cardInfo, CardDeckEditing deckEditing, CardDeckEditing.EditingType editingType,
                     int index, bool isSameWeakPoint, CardDeckUseType useType, int deckIndex)
@@ -360,11 +290,25 @@
             }
 
 </details>
-    
-### [Bingo Game]
+<br />
+
+#### 3️⃣ **빙고 이벤트 시스템**
+미션 수행과 재화 소모를 결합하여 유저의 리텐션을 유도하는 이벤트 시스템을 개발.
+- **주요 구현 :**
+    - **이원화 도장 시스템 :** 미션 보상(일반 도장)과 유료 재화(스페셜 도장) 사용 로직 구현
+    - **빙고 판정 알고리즘 :** 5x5 그리드의 가로, 세로, 대각선 완성 여부를 실시간 검출
+    - **최종 보상 연동 :** 올빙고 달성 시 '미공개 사진' 뷰어 및 해금 연출 구현
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/9f0f7031-4812-4b48-871d-17a51cb1a366" width="30%" alt="Bingo">
+  <img src="https://github.com/user-attachments/assets/27f02cf7-d9c3-4ffe-96b9-24a15d355764" width="30%" alt="Bingo Line Clear">
+  <img src="https://github.com/user-attachments/assets/775286aa-0a05-4f0b-939a-6ffbee3d3de0" width="30%" alt="Bingo Mission">
+</p>
+  
+### 💻 Code Snippets
 
 <details>
-<summary><b>1️⃣ 슬롯 데이터 </b></summary>
+<summary><b>▶ 1️⃣ 슬롯 데이터 </b></summary>  
     
     public class ObjBingoSlot : MonoBehaviour
     {
@@ -397,94 +341,9 @@
             StartCoroutine(PageBingoEvent.CompleteLine(index, openAnim));
         }
     }
-    
-    public class PageBingoEvent : PagePopup
-    {
-        private BingoInfo bingoEventData; // 서버 데이터
-        private List<BingoList> bingoStepList = new List<BingoList>(); // 테이블 데이터
-    
-        private void Init()
-        {
-            bingoEventData = APIHelper.BingoService.BingoInfo;
-            bingoStepList = APIHelper.BingoService.BingoStepList;
-            curEventTbData = CEventDataManager.Instance.GetBingoEventData(bingoEventData.gdid);
-
-            SetCurBingoStep(APIHelper.BingoService.GetLastOpenBingoData());
-            SetLineRwdDic();
-            SetEventInfo();
-            SetStampInfo();
-            SetEventTimer();
-            SetMissionRedDot(bingoEventData.mission_reddot);
-        }
-    
-        public IEnumerator CompleteLine(int slotIdx, Animation anim)
-        {
-            yield return new WaitUntil(() => !anim.isPlaying);
-
-            var clearDic = GetClearLineBySlotIdx(slotIdx);
-            if (clearDic.Count < 1)
-            {
-                Utility.SetFxLayerDimmed(false);
-                yield break;
-            }
-
-            foreach (var dic in clearDic)
-            {
-                var rwdIndex = dic.Key - 1;
-                var slotList = dic.Value;
-                for (int i = 0; i < slotList.Count; i++)
-                {
-                    var slot = slotList[i];
-
-                    slot.PlayOpenAnim();
-
-                    if (i < slotList.Count -1)
-                        yield return new WaitForSeconds(delay.slot);
-                    else
-                        yield return new WaitForSeconds(delay.lineRwd);
-                }
-
-                CSoundControl.Instance?.EffectPlay(SOUND_ID.SFX_BINGO_LINE);
-                objLineRwdList[rwdIndex].SetState(BINGO_RWD_STATE.RWD_OPEN);
-
-                yield return new WaitForSeconds(delay.line);
-            }
-
-            if (CheckBingoAllClear())
-            {
-                imgBlur.enabled = false;
-                bingoLineOBj.SetActive(false);
-                SetDesc();
-
-                yield return new WaitForSeconds(delay.openPopup);
-
-                OpenPopupBingolear();
-            }
-            else
-                Utility.SetFxLayerDimmed(false);
-        }
-    }
-
 </details>
     
-<details> <summary><b>2️⃣ 라인 완성 체크 및 연출 </b></summary>
-    
-    public class ObjBingoSlot : MonoBehaviour
-    {
-        public void OpenSlot()
-        {
-            state = BINGO_SLOT_STATE.OPEN;
-
-            var popupBingoCommonStamp = CCoreServices.GetInstance().GetService<CPopupService>().GetPopup<PopupBingoCommonStamp>();
-            if (popupBingoCommonStamp != null)
-                popupBingoCommonStamp.Close();
-
-            PlayEffSound();
-            openAnim.Play();
-
-            StartCoroutine(PageBingoEvent.CompleteLine(index, openAnim));
-        }
-    }
+<details> <summary><b>▶ 2️⃣ 라인 완성 체크 및 연출 </b></summary>
     
     public class PageBingoEvent : PagePopup
     {
@@ -553,11 +412,47 @@
     }
     
 </details>
+<br />
 
-### [Mini Game]
+#### 4️⃣ **미니게임 2종**
+게임 내 체류 시간을 높이기 위한 캐주얼 미니 게임 개발에 참여.
+
+##### 🏎️ 레이싱 미니게임
+- 게임 시작/오버 적용
+- 인게임 내 각종 이펙트/애니메이션 적용
+- 플레이 중 발생하는 전반적인 버그 수정
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/a1831208-c4a1-4f19-9287-03ee7b57416b" width="30%" alt="Racing Main">
+  <img src="https://github.com/user-attachments/assets/9fb61c6b-73c3-4291-a6fc-a3262edc72f6" width="30%" alt="Racing Playing">
+</p>
+
+##### 🍉 수박게임
+- 오브젝트 풀링을 이용한 게임 최적화
+- 원형 물리 충돌 판정을 이용한 오브젝트 합성 로직
+- 상단 투하 위치 가이드 및 스코어 시스템
+- 상단 종료 판정을 위한 데드라인 적용
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/1cb8eb30-610c-4cba-9c07-3508d44c1f87" width="30%" alt="Watermelon Main">
+  <img src="https://github.com/user-attachments/assets/6fb698bb-0fe1-43c5-91d7-ac95dbbad17e" width="30%" alt="Watermelon Playing">
+  <img src="https://github.com/user-attachments/assets/61db136a-fc3c-42b5-a997-8c242cee2d04" width="30%" alt="Watermelon Select Item">
+</p>
+
+##### 미니게임 공통 적용 사항
+- **아이템 시스템 :** 각기 다른 효과를 가진 아이템을 고유 트리거 시스템을 통해 사용 즉시 연동되는 특수 효과 및 로직을 구현하고, 게임의 템포를 조절하는 다양한 변수 창출.
+- **랭킹 시스템 :** 전체 유저 대상의 '글로벌 랭킹'과 소셜 연동 정보를 활용한 '친구 랭킹' 데이터 분리 및 UI 대응.
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/7fe135d3-d71b-49db-85bf-59ef9a5544df" width="30%" alt="MiniGame Ranking System">
+</p>
+
+- **개선/최적화:** 다양한 아이템 연출이 겹칠 때 프레임 드랍이 발생하는 문제를 방지하기 위해, 이펙트 오브젝트에도 오브젝트 풀링을 적용하여 안정적인 성능을 유지.
+
+### 💻 Code Snippets  
 #### 🏎️ 레이싱 미니게임
     
-<details> <summary><b>1️⃣ 충돌 체크 </b></summary>
+<details> <summary><b>▶ 1️⃣ 충돌 체크 </b></summary>
     
     public class MiniGameCharacterTrigger : MonoBehaviour
     {
@@ -635,10 +530,10 @@
     }
         
 </details>
- 
+
 #### 🍉 수박게임
     
-<details> <summary><b>1️⃣ 구슬  </b></summary>
+<details> <summary><b>▶ 1️⃣ 구슬  </b></summary>
   
     public partial class MiniGameWatermelon : MiniGameCommon
     {
@@ -700,7 +595,7 @@
     
 </details>
     
-<details> <summary><b>2️⃣ 구슬 드랍 </b></summary>    
+<details> <summary><b>▶ 2️⃣ 구슬 드랍 </b></summary>    
     
     public class MiniGameWatermelonPlayer : MiniGamePlayerInput
     {
@@ -733,7 +628,7 @@
     
 </details>
     
-<details> <summary><b>3️⃣ 충돌 처리 </b></summary>     
+<details> <summary><b>▶ 3️⃣ 충돌 처리 </b></summary>     
     
     private void OnHit(Collision2D collision)
     {
@@ -772,7 +667,6 @@
                     }
                     else
                     {
-                        //CheckFly();
                         CheckMoving();
                         // 다른 단계의 구슬(이동만 가능하게)
                         MiniGameWatermelon.Instance.SetPlayerMove(true);
@@ -782,7 +676,6 @@
                 // 안터지는 구슬
                 case MiniGameWatermelon.WATERMELON_TYPE.BEAD_STACKUP:
                     isTriggerEnter = true;
-                    //CheckFly();
                     CheckMoving();
                     MiniGameWatermelon.Instance.SetPlayerMove(true);
                     break;
@@ -799,12 +692,207 @@
     }
         
 </details>
-    
+<br />
+  
+
+#### 4️⃣ **프로필 및 프레임 시스템**
+유저의 개성을 표현하는 프로필 사진과 프레임 선택 시스템을 구축하고, 획득 조건에 따른 활성화 로직을 구현.
+- **주요 구현 :**
+    - 수백 종류의 프로필 리소스를 테이블 데이터와 연동하여 코드 수정 없이 리소스를 추가/관리할 수 있는 구조 적용.
+    - **상태별 필터링 로직 :** '보유 중', '미보유', '장착 중' 상태를 구분하고, 미보유 아이템의 경우 획득 처 확인 가능 팝업 연동.
+	- 대량 프로필 이미지의 메모리 사용 최적화를 위해 SuperScrollView의 Cell 재사용과 Addressables 기반 동적 리소스 로딩 적용
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/556d6878-9cf8-4d87-9aa4-21a8ab4f8f6c" width="30%" alt="Profile Image">
+  <img src="https://github.com/user-attachments/assets/585c73e8-38c6-42f3-af74-37c34da95ca1" width="30%" alt="Profile Frame">
+</p>
+<br />
+
+#### 5️⃣ **스페셜 카드 시스템**
+오프라인 실물 카드의 QR 코드를 통해 게임 내 카드를 등록 및 해제할 수 있는 시스템 구현.
+- **주요 구현 :**
+    - 카드별 고유 QR 코드 스캔을 통한 1인 1카드 등록 및 해제 처리.
+    - 테이블 데이터와 서버 API를 통해 등록 여부 검증을 중복 등록을 방지.
+    - 카드의 등록 및 해제/재등록 코드 이력을 확인할 수 있는 히스토리 구현.
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/e1de66e6-9aae-4943-b595-c4685ae9b04f" width="30%" alt="Special Card Main">
+  <img src="https://github.com/user-attachments/assets/793ae346-b90f-43ed-9166-9f4440924446" width="30%" alt="Special Card QR">
+</p>
+
+- **개선/최적화:** QR 리더기의 인식 이벤트가 팝업 생성 및 처리 완료 전에 연속적으로 호출됨. 동일한 등록 요청이 여러 번 실행되어 등록 팝업이 중복으로 생성되는 문제가 발생. => 팝업 활성 상태 체크를 통해 중복 생성 방지 및 Coroutine을 활용해 QR Reader실행 타이밍 제어로 해결.
+
+### 💻 Code Snippets    
+<details> <summary><b>▶ QR코드 인식 </b></summary>    
+
+    protected override void OnStart()
+	  {
+		base.OnStart();
+
+		SetType(UIPOPUP_TYPE.PAGE_POPUP);
+
+		RectTransform ret = GetComponent<RectTransform>();
+		ret.offsetMin = Vector2.zero;
+		ret.offsetMax = Vector2.zero;
+
+        if (tipCamera != null)
+            tipCamera.text = "";
+
+        StartReader();
+
+        if (descText != null)
+            descText.text = CStringDataManager.Instance.GetStringData("AR_system_tip_5");
+
+        SetTipText();
+    }
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+        StopReader();
+    }
+
+    private void StartReader()
+	{
+		if (reader != null)
+		{
+			reader.StartWork();
+            CodeReader.OnCodeFinished += CheckCardRegister;
+		}
+	}
+
+	private void StopReader()
+	{
+        if (reader != null)
+        {
+            reader.StopWork();
+            CodeReader.OnCodeFinished -= CheckCardRegister;
+        }
+    }
+
+    // 이미 본 계정에 등록되어있는지 체크
+    private void CheckCardRegister(string codeData)
+    {
+        // codeData = QR코드 일련번호
+        cardList = SpCardManager.Instance.GetSpCardList();
+        SetTipText();
+
+        if (cardList != null)
+        {
+            if (cardList.Find(x => x.spcd_code == codeData) != null) // 이미 본 계정에 등록된 카드
+            {
+                SetTipText("AR_system_error_3");
+                return;
+            }
+            else
+                OpenPopupSpcardSetting(codeData);
+        }
+        else
+            OpenPopupSpcardSetting(codeData);
+    }
+    private void SetTipText(string text = null)
+	  {
+        tipObj.SetActive(text != null);
+        if (tipText != null && text != null)
+            tipText.text = CStringDataManager.Instance.GetStringData(text);
+    }
+
+    private void SetCameraTip(string text = null)
+    {
+        tipObj.SetActive(text != null);
+        if (tipText != null && text != null)
+            tipText.text = CStringDataManager.Instance.GetStringData(text);
+    }
+
+    /// <summary>
+    /// 아직 업데이트 전 카드
+    /// </summary>
+    /// <param name="card_id"></param>
+    private bool CheckUpdateCard(long card_id)
+    {
+        bool isUpdate = false;
+
+        var cardData = CCardDataManager.Instance.GetCardListData(card_id);
+
+        if(cardData != null)
+        {
+            if (cardData.card_useable == COMMON_AVAILABILLITY.BOOL_DISABLE)
+            {
+                CCoreServices.GetCoreService<CPopupService>().NoticeMessageDisposable("AR_system_error_10");
+                SetTipText("AR_system_error_10");
+                isUpdate = true;
+            }
+        }
+
+        return isUpdate;
+    }
+
+    private void OpenPopupSpcardSetting(string codeData)
+	  {
+		if (reader.IsWorking)
+            reader.StopWork();
+
+		if (CCoreServices.GetCoreService<CPopupService>().IsOpenPopup<PopupSpcardSetting>()) // 동일한 팝업 있는지 체크
+			return;
+
+        var checkDispose = new SingleAssignmentDisposable();
+        checkDispose.Disposable = APIHelper.SpecialCardService.Req_SpecialcardCheck(codeData)
+            .SelectMany(res =>
+            {
+                if (res != null)
+                {
+                    // 사용 가능 카드
+                    if (res.d.is_valid)
+                    {
+                        var popup = new SingleAssignmentDisposable();
+                        popup.Disposable = CCoreServices.GetCoreService<CPopupService>().OpenPopupSpcardSetting(codeData, -1, cardList, this)
+                            .ShowAsObservable().Do(_ => popup.Dispose()).Subscribe();
+                    }
+                    else
+                    {
+                        if (res.d.card_id > 0)
+                        {
+                            //업데이트 카드 체크
+                            CheckUpdateCard(res.d.card_id);
+                        }
+                        else
+                        {
+                            SetTipText("AR_system_error_4");
+                        }
+
+                        StartCoroutine(StartWork());
+                    }
+                }
+                return Observable.ReturnUnit();
+            }).Do(_ => checkDispose.Dispose()).Subscribe();
+	}
+
+    protected IEnumerator StartWork()
+    {
+        yield return new WaitForSeconds(0.6f);
+        reader.StartWork();
+    }
+  
+</details>  
+<br />
+
+#### 6️⃣ **컨텐츠 해금**
+플레이 중 특정 해금 조건을 달성하면 콘텐츠가 해금되는 시스템을 구현.
+- **주요 구현 :**
+    - 컨텐츠별 해금 조건 및 해금 상태 관리 및 조건 달성 시 해금 팝업 노출.
+    - 해금 팝업의 이동 버튼을 통한 해당 컨텐츠로의 네비게이션 이동.
+    - 미해금 컨텐츠 클릭 시 해금 조건을 안내하는 알림 팝업 노출.
+
+- **개선/최적화:** 로비 씬 이동 전에 컨텐츠 해금 여부에 필요한 서버 데이터 셋팅이 완료되지 않아 해금 상태가 정상적으로 표시되지 않는 문제가 발생. 모든 데이터 처리가 완료되는 정확한 시점을 판단하기 어려웠음. => 서버 데이터 초기화 과정을 분석하여 각 데이터 셋팅 및 후속 처리가 완료된 시점에 콜백을 호출해 씬이동 구성.
+<br />
+
+   
 ---
 
 ## 📈 Growth & Review
 - **데이터 설계 능력 향상 :** Normal/Hard/Event 등 복잡한 라이브 서비스 환경에서 데이터 간섭 없이 안정적으로 확장 가능한 시스템 설계 역량을 쌓았습니다.
-- **최적화 및 UX 고려 :** 대량의 랭킹 데이터 처리 및 오브젝트 풀링을 활용한 미니게임 구현을 통해 성능 최적화와 유저 피드백(연출)의 중요성을 체득했습니다.
+- **최적화 고려 :** 대량의 랭킹 데이터 처리 및 오브젝트 풀링을 활용한 미니게임 구현 등을 통해 성능 최적화의 중요성을 체득했습니다.
 - **협업 중심 개발 :** 기획 의도에 유연하게 대응할 수 있도록 추상화와 인터페이스 중심의 코드를 작성하여 유지보수 효율을 높였습니다.
 
 ---
@@ -818,22 +906,22 @@
 
 ## 📌 Project Overview
 - **개발 기간 :** 2025.10 ~ 2026.02
-- **기술 스택 :** Unity 3D, C#, UGUI
+- **기술 스택 :** Unity 3D, C#, UGUI, UniRx
 - **담당 역할 :** 클라이언트 컨텐츠 로직 구현 (SNS)
 <br />
     
 ### ✨ Key Implementation
 
-### Mobile SNS System (Instagram)
+### **Mobile SNS System (Instagram)**
 > **사용자 간 피드 공유 및 실시간 상호작용이 가능한 모바일 SNS 플랫폼 구현**
     
-#### 1️⃣ 피드 업로드 및 실시간 댓글 시스템 (Feed & Comment) 📤
+#### 1️⃣ **피드 업로드 및 실시간 댓글 시스템 📤**
 유저가 직접 미디어를 공유하고 댓글로 상호작용할 수 있는 커뮤니티 핵심 기능을 구현
 
 - **주요 구현 :** 
   - **미디어 업로드 로직 :** 테이블 데이터 기반하여 이미지를 로드하고 이미지 선택과 함께 글을 작성하여 서버 전송 적용
-  - **실시간 댓글 동기화 :** 댓글 작성 시 리스트 자동 갱신 및 레이아웃 동적으로 높이 조절 처리
-  - 좋아요 및 댓글 등록 시 서버 응답 전 UI를 즉시 반영하여 사용자 체감 속도 극대화
+  - **실시간 댓글 동기화 :** 댓글 작성 시 리스트 갱신 및 레이아웃을 동적으로 높이 조절 처리
+  - 좋아요 및 댓글 등록 시 UI를 즉시 반영하여 사용자 체감 속도 극대화
     
 <p align="left">
   <img src="https://github.com/user-attachments/assets/38149c0b-08e0-4b14-a8be-90d23d5bf0ab" width="30%" alt="Feed Main">
@@ -843,50 +931,9 @@
   
 - **개선/최적화:** 
     - 피드 콘텐츠의 높이가 가변적임에 따라, 각 게시물의 레이아웃이 고정되지 않아 컴포넌트 간 중첩 현상이 발생. 이를 해결하기 위해, 각 피드를 구성하는 하위 요소들의 높이를 실시간으로 연산하고, 가변적인 댓글 영역의 높이까지 합산하여 전체 피드의 레이아웃 사이즈를 동적으로 재설정함으로써 레이아웃 중첩 문제를 해결.
- <br />   
-
-#### 2️⃣ 실시간 소셜 상호작용 ❤️
-좋아요, 댓글 등 유저 간 실시간 인터랙션을 위한 반응형 UI 시스템을 개발
-
-- **주요 구현 :** 
-  - 서버 응답 대기 없이 유저 액션에 즉각 반응하는 UI 로직을 적용하여 체감 속도 향상
-  - 게시물의 상태 변경(좋아요 수 등)이 여러 UI 뷰에 동시 반영되도록 적용
-    
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/00949b2f-d98f-4af2-85b7-95d4aab56113" width="30%" alt="Feed Like">
-  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story Like">
-</p>
-<br />
-
-#### 3️⃣ 스토리 시스템 ⏱️
-24시간 동안 유지되는 휘발성 콘텐츠를 위한 별도의 뷰어와 업로드 로직을 구현
-
-- **주요 구현 :** 
-  - **스토리 전용 뷰어 :** 상단 프로그레스 바 연동 및 자동 넘김, 탭 이동 기능 구현
-  - **필터링 로직 :** 서버 데이터 기반으로 남은 유효시간을 계산해 실시간 만료 카운트다운을 수행하여, 유효 시간이 경과한 데이터는 자동으로 필터링해 노출되지 않도록 구현
-    
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story">
-</p>
-<br />
-
-#### 4️⃣ 실시간 DM 시스템 💬
-유저와 캐릭터 간 1:1 채팅을 위한 메시지 송수신 시스템을 구축
-- **주요 구현 :** 
-  - **실시간 통신 :** 서버- AI간 데이터를 실시간 이벤트 기반으로 중계하여 대화 내용이 즉시 화면에 반영되는 대화형 인터페이스 구축
-  - **채팅 UI 최적화 :** 가변형 말풍선 리스트 구현
-  - **상태 표시 :** 지연 메세지, 메시지 읽음 처리 및 실시간 글쓰기 상태 표시 로직 연동
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/3cc73722-43fe-4b52-add9-213e8343902f" width="30%" alt="DM List">
-  <img src="https://github.com/user-attachments/assets/156a80a0-af78-435f-9c93-48a12cc8e21d" width="30%" alt="DM">
-</p>
-
-## 💻 Code Snippets
-
-### [Feed System]
-
-<details> <summary><b>1️⃣ 피드 레이아웃 재조정</b></summary>
+ 
+ ### 💻 Code Snippets
+ <details> <summary><b>▶ 피드 레이아웃 재조정</b></summary>
   
     private void RefreshRootUIHeight()
     {
@@ -908,10 +955,34 @@
     }
   
 </details>
+ <br />   
 
-### [Story System]
+#### 2️⃣ **실시간 소셜 상호작용 ❤️**
+좋아요, 댓글 등 유저 간 실시간 인터랙션을 위한 반응형 UI 시스템을 개발
 
-<details> <summary><b>1️⃣ 스토리 및 상단 프로그레스 바 셋팅</b></summary>
+- **주요 구현 :** 
+  - 유저 액션에 따른 게시물의 상태 변경(좋아요 수 , 댓글 등)이 반영되도록 적용
+    
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/00949b2f-d98f-4af2-85b7-95d4aab56113" width="30%" alt="Feed Like">
+  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story Like">
+</p>
+<br />
+
+#### 3️⃣ 스토리 시스템 ⏱️
+24시간 동안 유지되는 휘발성 콘텐츠를 위한 별도의 뷰어와 업로드 로직을 구현
+
+- **주요 구현 :** 
+  - **스토리 전용 뷰어 :** 상단 프로그레스 바 연동 및 자동 넘김, 탭 이동 기능 구현
+  - **필터링 로직 :** 서버 데이터 기반으로 남은 유효시간을 계산해 실시간 만료 카운트다운을 수행하여, 유효 시간이 경과한 데이터는 자동으로 필터링해 노출되지 않도록 구현
+  - **프로필 프레임 상태 변경 :** 스토리 확인 유무에 따른 프로필 프레임 상태 변경 적용
+    
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/90901293-3db1-46ce-8b0a-78bece3d1c6f" width="30%" alt="Story">
+</p>
+
+### 💻 Code Snippets
+<details> <summary><b>▶ 1️⃣ 스토리 및 상단 프로그레스 바 셋팅</b></summary>
   
     public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
     {
@@ -981,7 +1052,7 @@
     
 </details>
   
-<details> <summary><b>2️⃣ 다음 데이터 셋팅 </b></summary>
+<details> <summary><b>▶ 2️⃣ 다음 데이터 셋팅 </b></summary>
   
     public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
     {
@@ -1041,7 +1112,7 @@
   
 </details>
   
-<details> <summary><b>3️⃣ 시간 만료 체크 </b></summary>
+<details> <summary><b>▶ 3️⃣ 시간 만료 체크 </b></summary>
 
     public class PopupSnsStory : CPopupUI<PopupSnsStory.Setting, PopupSnsStory.Result>
     {                                                                             
@@ -1101,6 +1172,20 @@
     }
 
   </details>
+
+<br />
+
+#### 4️⃣ **실시간 DM 시스템 💬**
+유저와 캐릭터 간 1:1 채팅을 위한 메시지 송수신 시스템을 구축
+- **주요 구현 :** 
+  - **실시간 통신 :** 서버- AI간 데이터를 실시간 이벤트 기반으로 중계하여 대화 내용이 즉시 화면에 반영되는 대화형 인터페이스 구축
+  - **채팅 UI 최적화 :** 가변형 말풍선 리스트 구현
+  - **상태 표시 :** 지연 메세지, 메시지 읽음 처리 및 실시간 글쓰기 상태 표시 로직 연동
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/3cc73722-43fe-4b52-add9-213e8343902f" width="30%" alt="DM List">
+  <img src="https://github.com/user-attachments/assets/156a80a0-af78-435f-9c93-48a12cc8e21d" width="30%" alt="DM">
+</p>
 
 ---
  
